@@ -34,7 +34,7 @@ ecommerce:
         wait_for:
            frontend_ip:
              resource_type: svc
-             resource_name: frontend
+             resource_name: ecommerce-website
              json_path: "{.status.loadBalancer.ingress[0].ip}"
     - name: instance
       extension: AzureCompute
