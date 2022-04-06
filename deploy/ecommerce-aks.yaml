@@ -7,7 +7,7 @@ ecommerce:
       extension: Kubectl
       tags: applications
       source:
-        location: /Users/gabe/code/eCommerce/ecommerce.yml
+        location: https://raw.githubusercontent.com/lacework-demo/unhackable-ecommerce-app/main/ecommerce.yml
         templates:
           - "ecommerce.yml"
       helpers:
@@ -44,7 +44,7 @@ ecommerce:
         instance_name: "ecom-traffic"
     - name: traffic
       extension: Ansible
-      source: /Users/gabe/code/eCommerce/deploy/ansible/traffic.yml
+      source: https://raw.githubusercontent.com/lacework-demo/unhackable-ecommerce-app/main/deploy/ansible/traffic.yml
       needs:
         - instance
         - ecommerce
