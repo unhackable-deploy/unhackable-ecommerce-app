@@ -1,0 +1,15 @@
+FROM node:16
+WORKDIR /usr/src/app
+
+RUN apt update
+run apt install mysql\* -y
+
+ADD ../datalayer/. .
+RUN npm install && npm ci && npm run build
+RUN npm install ts-node -g
+RUN npm install order
+
+ENV PORT=9001
+EXPOSE ${PORT}
+
+ENTRYPOINT ["ts-node", "dist/index.js"]

@@ -1,0 +1,76 @@
+version: "3.9"
+    
+services:
+  ecommerce-frontend:
+    image: detcaccounts/ecommerce-website
+    stdin_open: true
+    tty: true
+    restart: always
+    environment:
+      INVENTORY_SERVICE_URL: "http://ecommerce-inventory:9001/inventory"
+      ORDER_SERVICE_URL: "http://ecommerce-order:9001/order"
+      LOGIN_SERVICE_URL: "http://ecommerce-login:9001/login"
+    ports:
+      - "8080:8080"
+    links:
+      - ecommerce-order
+      - ecommerce-inventory
+  ecommerce-inventory:
+    image: detcaccounts/ecommerce-inventory
+    ports:
+      - "9001:9001"
+    restart: always
+    environment:
+      PORT: 9001
+      DATABASE_TYPE: postgres
+      DATABASE_USER: postgres
+      DATABASE_HOST: ecommerce-inventory-db
+      DATABASE_PASSWORD: postgres
+      DATABASE_DATABASE: inventory
+      DATABASE_PORT: 5432
+    links:
+      - ecommerce-inventory-db
+  ecommerce-inventory-db:
+    image: postgres
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=inventory
+      - POSTGRES_PASSWORD=postgres
+  ecommerce-order:
+    image: detcaccounts/ecommerce-order
+    ports:
+      - "9002:9001"
+    restart: always
+    environment:
+      PORT: 9001
+      DATABASE_TYPE: mysql
+      DATABASE_USER: postgres
+      DATABASE_HOST: ecommerce-order-db
+      DATABASE_PASSWORD: postgres
+      DATABASE_DATABASE: order
+      DATABASE_PORT: 3306
+      INVENTORY_SERVICE_URL: "http://ecommerce-inventory:9001/inventory"
+    links:
+      - ecommerce-order-db
+      - ecommerce-inventory
+  ecommerce-order-db:
+    image: mysql/mysql-server
+    restart: always
+    ports:
+      - '3306:3306'
+    environment:
+      - MYSQL_USER=postgres
+      - MYSQL_DATABASE=order
+      - MYSQL_PASSWORD=postgres
+      - MYSQL_RANDOM_ROOT_PASSWORD=true
+  ecommerce-login:
+    image: detcaccounts/ecommerce-login
+    ports:
+      - "9003:9001"
+    restart: always
+    environment:
+      - PORT=9001
+      - NODB=true
