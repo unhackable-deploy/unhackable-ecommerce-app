@@ -2,6 +2,8 @@
 ecommerce:
   needs:
     - azure-k8s
+  required_secrets:
+    - path: attacker.ip
   steps:
     - name: ecommerce
       extension: Kubectl
@@ -24,6 +26,7 @@ ecommerce:
       needs:
         - instance
       args:
+        netcat_host_ip: !secret attacker.ip
         control_plane_url: !lookup /azure-k8s/k8s/outputs/cluster_endpoint
         kubectl_config: !lookup /azure-k8s/k8s/outputs/kubectl_config
         kubectl_config_file: kubectl
