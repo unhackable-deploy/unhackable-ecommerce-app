@@ -48,7 +48,20 @@ export const  createOrder = async (req: Request, res: Response) => {
     }
   };
 
-  res.send(message);  
+  const trackOrderFunctionUrl = process.env["TRACK_ORDER_URL"]
+  if (!trackOrderFunctionUrl) {
+    message += " Error: TRACK_ORDER_URL not defined";
+    console.log("TRACK_ORDER_URL not defined")
+  }else{
+    try{
+      await axios.get(trackOrderFunctionUrl);
+    }catch(error){
+      message += " Error: " + trackOrderFunctionUrl + " connection error";
+      console.log(message);
+    }
+  };
+
+  res.send(message);
 }
 
 export const logUserIn = (req: Request, res: Response) => {

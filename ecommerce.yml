@@ -285,6 +285,8 @@ spec:
           value: "3306"
         - name: INVENTORY_SERVICE_URL
           value: "http://ecommerce-inventory:9001/inventory"
+        - name: TRACK_ORDER_URL
+          value: {{ index .  "track_order_url" }}
         ports:
         - containerPort: 9001
           name: ecommerce-order
