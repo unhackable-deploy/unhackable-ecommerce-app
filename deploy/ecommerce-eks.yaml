@@ -2,8 +2,6 @@
 ecommerce:
   needs:
     - aws-k8s
-  required_secrets:
-    - path: attacker.ip
   steps:
     - name: order-tracker-bucket
       extension: S3
@@ -54,7 +52,6 @@ ecommerce:
       needs:
         - instance
       args:
-        netcat_host_ip: !secret attacker.ip
         track_order_url: !lookup /ecommerce/order-tracker-lambda/outputs/lambda_invoke_url
         control_plane_url: !lookup /aws-k8s/k8s/outputs/cluster_endpoint
         kubectl_config: !lookup /aws-k8s/k8s/outputs/kubectl_config

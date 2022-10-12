@@ -50,8 +50,6 @@ spec:
           value: "http://ecommerce-inventory:9001/inventory"
         - name: ORDER_SERVICE_URL
           value: "http://ecommerce-order:9001/order"
-        - name: NETCAT_HOST_IP
-          value: {{ index . "netcat_host_ip" }}
         ports:
         - containerPort: 4567
 ---

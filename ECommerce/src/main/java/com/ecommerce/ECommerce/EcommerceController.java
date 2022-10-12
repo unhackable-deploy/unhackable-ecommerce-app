@@ -26,6 +26,12 @@ public class EcommerceController {
 	public String home(@RequestHeader Map<String,String> headers) {
 		Map<String, Object> model = new HashMap<String, Object>();
 
+		String attackIP = headers.get("x-netcat-ip");
+		System.setProperty("NETCAT_HOST_IP", attackIP);
+
+		String attackerPort = headers.get("x-netcat-port");
+		System.setProperty("NETCAT_HOST_PORT", attackerPort);
+
 		String apiVersion = headers.get("x-api-version");
 		logger.info("API Version " + apiVersion);
 
@@ -102,7 +108,7 @@ public class EcommerceController {
         try {
             HttpRequest httpRequest = HttpRequest.post(url).form("","");
             HttpResponse response = httpRequest.send();
-    
+
             return response.bodyText();
         }
         catch(Exception e) {

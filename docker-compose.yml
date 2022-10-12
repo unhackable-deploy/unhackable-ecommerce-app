@@ -1,5 +1,5 @@
 version: "3.9"
-    
+
 services:
   ecommerce-frontend:
     image: detcaccounts/ecommerce-website
@@ -10,7 +10,6 @@ services:
       INVENTORY_SERVICE_URL: "http://ecommerce-inventory:9001/inventory"
       ORDER_SERVICE_URL: "http://ecommerce-order:9001/order"
       LOGIN_SERVICE_URL: "http://ecommerce-login:9001/login"
-      NETCAT_HOST_IP: "IP_ADDRESS_OF_ATTACKERS_HOST"
     ports:
       - "8080:8080"
     links:
