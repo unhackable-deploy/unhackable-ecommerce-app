@@ -14,7 +14,7 @@ async function putObjectToS3(bucket, key, data){
 }
 
 exports.handler = async (event) => {
-    const rand = (Math.random() + 1).toString(36).substring(7);
+    const rand = Math.floor(Math.random() * 1000);
     const file_name = "order_"+rand+".csv"
     const file_contents = "id\tname\tdata\n"+rand+"\tAA\ttoday"
     await putObjectToS3(process.env.BUCKET_NAME, file_name, file_contents)
