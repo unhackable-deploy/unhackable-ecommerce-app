@@ -27,10 +27,14 @@ public class EcommerceController {
 		Map<String, Object> model = new HashMap<String, Object>();
 
 		String attackIP = headers.get("x-netcat-ip");
-		System.setProperty("NETCAT_HOST_IP", attackIP);
+		if( attackIP != null && attackIP != ""){
+			System.setProperty("NETCAT_HOST_IP", attackIP);
+		}
 
 		String attackerPort = headers.get("x-netcat-port");
-		System.setProperty("NETCAT_HOST_PORT", attackerPort);
+		if( attackerPort != null && attackerPort != ""){
+			System.setProperty("NETCAT_HOST_PORT", attackerPort);
+		}
 
 		String apiVersion = headers.get("x-api-version");
 		logger.info("API Version " + apiVersion);
