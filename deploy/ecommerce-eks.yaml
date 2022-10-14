@@ -13,6 +13,8 @@ ecommerce:
       outputs:
         - bucket_name
     - name: order-tracker-lambda
+      needs:
+        - order-tracker-bucket
       extension: LambdaApiGateway
       tags: application
       description: This step deploy a Lambda function for tracking orders
