@@ -13,7 +13,6 @@ metadata:
 spec:
   type: LoadBalancer
   externalTrafficPolicy: Local
-  loadBalancerSourceRanges: [ {{range  $i, $e := .cidr_block }}{{if ne . ""}}{{if $i}},{{end}}{{$e}}/32{{end}}{{end}} ]
   ports:
     - name: ecommerce-website
       port: 80
