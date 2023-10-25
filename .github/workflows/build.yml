@@ -2,9 +2,6 @@ name: build
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - 'main'
 
 jobs:
   ecommerce-website:
@@ -32,10 +29,9 @@ jobs:
           load: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/ecommerce-website:latest
 
-      - uses: lacework/lw-scanner-action@v0.6.0
-        name: Scan contacts container image for vulnerabitilies using Lacework
+      - uses: lacework/lw-scanner-action@v1.4.0
+        name: Scan contacts container image for vulnerabilities using Lacework
         with:
-          USE_POLICY: true
           LW_ACCOUNT_NAME: ${{ secrets.LW_ACCOUNT_NAME }}
           LW_ACCESS_TOKEN: ${{ secrets.LW_ACCESS_TOKEN }}
           IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/ecommerce-website
@@ -73,10 +69,9 @@ jobs:
           load: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/ecommerce-order:latest
 
-      - uses: lacework/lw-scanner-action@v0.6.0
-        name: Scan contacts container image for vulnerabitilies using Lacework
+      - uses: lacework/lw-scanner-action@v1.4.0
+        name: Scan contacts container image for vulnerabilities using Lacework
         with:
-          USE_POLICY: true
           LW_ACCOUNT_NAME: ${{ secrets.LW_ACCOUNT_NAME }}
           LW_ACCESS_TOKEN: ${{ secrets.LW_ACCESS_TOKEN }}
           IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/ecommerce-order
@@ -114,10 +109,9 @@ jobs:
           load: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/ecommerce-inventory:latest
 
-      - uses: lacework/lw-scanner-action@v0.6.0
-        name: Scan contacts container image for vulnerabitilies using Lacework
+      - uses: lacework/lw-scanner-action@v1.4.0
+        name: Scan contacts container image for vulnerabilities using Lacework
         with:
-          USE_POLICY: true
           LW_ACCOUNT_NAME: ${{ secrets.LW_ACCOUNT_NAME }}
           LW_ACCESS_TOKEN: ${{ secrets.LW_ACCESS_TOKEN }}
           IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/ecommerce-inventory
@@ -155,10 +149,9 @@ jobs:
           load: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/ecommerce-login:latest
 
-      - uses: lacework/lw-scanner-action@v0.6.0
-        name: Scan contacts container image for vulnerabitilies using Lacework
+      - uses: lacework/lw-scanner-action@v1.4.0
+        name: Scan contacts container image for vulnerabilities using Lacework
         with:
-          USE_POLICY: true
           LW_ACCOUNT_NAME: ${{ secrets.LW_ACCOUNT_NAME }}
           LW_ACCESS_TOKEN: ${{ secrets.LW_ACCESS_TOKEN }}
           IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/ecommerce-login
