@@ -14,12 +14,13 @@
     <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
       <header class="masthead mb-auto">
         <div class="inner">
-          <h3 class="masthead-brand">unHackable</h3>
+          <h3 class="masthead-brand">unHackable storeFront</h3>
           <nav class="nav nav-masthead justify-content-center">
             <a class="nav-link" href="/">Home</a>
             <a class="nav-link" href="/products">Products</a>
             <a class="nav-link" href="/login">Login</a>
             <a class="nav-link" href="/orders">Orders</a>
+            <a class="nav-link" href="/specials">Specials</a>
           </nav>
         </div>
       </header>
