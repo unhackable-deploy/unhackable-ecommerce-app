@@ -2,6 +2,9 @@ name: ecommerce-website-build-and-deploy
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - 'main'
 
 jobs:
   ecommerce-website:
@@ -27,15 +30,15 @@ jobs:
         with:
           file: docker/Dockerfile_ecommerce
           load: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/ecommerce-website:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/ecommerce-website:${{ github.sha }}
 
-      # - uses: lacework/lw-scanner-action@v1.4.0
-      #   name: Scan contacts container image for vulnerabilities using Lacework
-      #   with:
-      #     LW_ACCOUNT_NAME: ${{ secrets.LW_ACCOUNT_NAME }}
-      #     LW_ACCESS_TOKEN: ${{ secrets.LW_ACCESS_TOKEN }}
-      #     IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/ecommerce-website
-      #     IMAGE_TAG: latest
+      - uses: lacework/lw-scanner-action@v1.4.0
+        name: Scan contacts container image for vulnerabilities using Lacework
+        with:
+          LW_ACCOUNT_NAME: ${{ secrets.LW_ACCOUNT_NAME }}
+          LW_ACCESS_TOKEN: ${{ secrets.LW_ACCESS_TOKEN }}
+          IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/ecommerce-website
+          IMAGE_TAG: ${{ github.sha }}
 
       - name: Build and push frontend
         uses: docker/build-push-action@v2
@@ -54,6 +57,7 @@ jobs:
 
       - name: deploy to cluster
         run: kubectl set image deployment/ecommerce-website ecommerce-website=$DOCKER_USERNAME/ecommerce-website:$GH_SHA
+        id: k8s_deploy
         env:
           KUBECONFIG: /tmp/k.conf
           GH_SHA: ${{ github.sha }}
@@ -63,13 +67,14 @@ jobs:
 
       - name: wait for deployment to succeed
         run: kubectl rollout status deployment/ecommerce-website --timeout=60s
+        id: k8s_deploy_wait
         env:
           KUBECONFIG: /tmp/k.conf
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
 
       - name: get events from deployment failure
-        if: ${{ failure() }}
+        if: ${{ failure() && steps.k8s_deploy_wait.conclusion == 'failure' }}
         run: sleep 10 && kubectl events && exit 1
         env:
           KUBECONFIG: /tmp/k.conf
