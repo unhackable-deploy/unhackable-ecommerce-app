@@ -25,7 +25,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build contacts and export to Docker
+      - name: Build container and export to Docker
         uses: docker/build-push-action@v2
         with:
           file: docker/Dockerfile_ecommerce
@@ -33,14 +33,14 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/ecommerce-website:${{ github.sha }}
 
       - uses: lacework/lw-scanner-action@v1.4.0
-        name: Scan contacts container image for vulnerabilities using Lacework
+        name: Scan container image for vulnerabilities using Lacework
         with:
           LW_ACCOUNT_NAME: ${{ secrets.LW_ACCOUNT_NAME }}
           LW_ACCESS_TOKEN: ${{ secrets.LW_ACCESS_TOKEN }}
           IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/ecommerce-website
           IMAGE_TAG: ${{ github.sha }}
 
-      - name: Build and push frontend
+      - name: Build and push
         uses: docker/build-push-action@v2
         with:
           file: docker/Dockerfile_ecommerce
