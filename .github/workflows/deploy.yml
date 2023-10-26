@@ -62,7 +62,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
 
       - name: wait for deployment to succeed
-        run: kubectl rollout status deployment/ecommerce-website --timeout=30s
+        run: kubectl rollout status deployment/ecommerce-website --timeout=60s
         env:
           KUBECONFIG: /tmp/k.conf
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
@@ -70,7 +70,7 @@ jobs:
 
       - name: get events from deployment failure
         if: ${{ failure() }}
-        run: kubectl events && exit 1
+        run: sleep 10 && kubectl events && exit 1
         env:
           KUBECONFIG: /tmp/k.conf
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
