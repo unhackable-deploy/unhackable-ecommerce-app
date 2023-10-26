@@ -20,6 +20,7 @@
             <a class="nav-link" href="/products">Products</a>
             <a class="nav-link" href="/login">Login</a>
             <a class="nav-link" href="/orders">Orders</a>
+            <a class="nav-link" href="/about">About Us</a>
           </nav>
         </div>
       </header>
